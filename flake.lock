@@ -1,6 +1,6 @@
 {
   "nodes": {
-    "libgnunetchat": {
+    "libgnunetchat-src": {
       "flake": false,
       "locked": {
         "lastModified": 1660421009,
@@ -9,14 +9,14 @@
         "rev": "a67bafd0a50710de5fd729dbc5b938ad48580954",
         "revCount": 98,
         "type": "git",
-        "url": "https://git.gnunet.org/libgnunetchat.git"
+        "url": "https://git.gnunet.org/libgnunetchat"
       },
       "original": {
         "type": "git",
-        "url": "https://git.gnunet.org/libgnunetchat.git"
+        "url": "https://git.gnunet.org/libgnunetchat"
       }
     },
-    "messenger-cli": {
+    "messenger-cli-src": {
       "flake": false,
       "locked": {
         "lastModified": 1662748431,
@@ -34,12 +34,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1663087123,
-        "narHash": "sha256-cNIRkF/J4mRxDtNYw+9/fBNq/NOA2nCuPOa3EdIyeDs=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "9608ace7009ce5bc3aeb940095e01553e635cbc7",
-        "type": "github"
+        "lastModified": 1662821606,
+        "narHash": "sha256-Z9z9iSH+tgJ0iyRcBfEQRwELgjnhpVXsktiWiFe3SuY=",
+        "path": "/nix/store/pbcwa8w0rrqpfjch7cjjyfnis4sqsz10-source",
+        "rev": "93a0067a9c85c17764f7755947e6ecf52dc47d8a",
+        "type": "path"
       },
       "original": {
         "id": "nixpkgs",
@@ -48,8 +47,8 @@
     },
     "root": {
       "inputs": {
-        "libgnunetchat": "libgnunetchat",
-        "messenger-cli": "messenger-cli",
+        "libgnunetchat-src": "libgnunetchat-src",
+        "messenger-cli-src": "messenger-cli-src",
         "nixpkgs": "nixpkgs"
       }
     }

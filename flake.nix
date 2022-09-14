@@ -3,46 +3,53 @@
   description = "A very basic flake";
 
   inputs = {
-    messenger-cli = {
+    messenger-cli-src = {
       url = "git+https://git.gnunet.org/messenger-cli";
       flake = false;
     };
 
-    libgnunetchat = {
-      url = "git+https://git.gnunet.org/libgnunetchat.git";
+    libgnunetchat-src = {
+      url = "git+https://git.gnunet.org/libgnunetchat";
       flake = false;
     };
   };
 
-  outputs = { self, nixpkgs, messenger-cli, libgnunetchat }@inputs:
+  outputs = { self, nixpkgs, messenger-cli-src, libgnunetchat-src }:
     let
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
     in
     {
-      overlays.default = final: prev: {
-        libgnunetchat = prev.stdenv.mkDerivation {
-          NIX_DEBUG = 1;
-          INSTALL_DIR = (placeholder "out") + "/";
-          prePatch = ''
-            mkdir -p $out/lib
-          '';
-          name = "libgnunetchat";
-          src = libgnunetchat;
-          buildInputs = [ prev.gnunet prev.libsodium prev.libgcrypt prev.libextractor ];
-        };
+      overlays.default = final: _:
+        let
+          libgnunetchat = final.stdenv.mkDerivation {
+            name = "libgnunetchat";
+            src = libgnunetchat-src;
 
-        messenger-cli = prev.stdenv.mkDerivation {
-          name = "gnunet-messenger-cli";
-          src = messenger-cli;
-          buildInputs = [
-            final.libgnunetchat
-          ];
+            buildInputs = with final; [ gnunet libsodium libgcrypt libextractor ];
+
+            INSTALL_DIR = (placeholder "out") + "/";
+            prePatch = ''
+              mkdir -p $out/lib
+            '';
+          };
+
+          messenger-cli = final.stdenv.mkDerivation {
+            name = "gnunet-messenger-cli";
+            src = messenger-cli-src;
+            buildInputs = with final; [
+              libgnunetchat
+              ncurses
+            ];
+          };
+
+        in
+        {
+          inherit messenger-cli libgnunetchat;
         };
-      };
 
 
       packages.x86_64-linux = {
-        inherit (self.overlays.default null pkgs) libgnunetchat messenger-cli;
+        inherit (self.overlays.default pkgs null) libgnunetchat messenger-cli;
       };
     };
 }
