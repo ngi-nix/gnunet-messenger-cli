@@ -24,6 +24,7 @@
         name = "libgnunetchat";
         src = libgnunetchat;
         nativeBuildInputs = [ pkgs.gnunet pkgs.libsodium pkgs.libgcrypt pkgs.libextractor];
+        outputs = 
       };
     };
 }
