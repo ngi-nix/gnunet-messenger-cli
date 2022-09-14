@@ -19,12 +19,19 @@
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
     in
     {
+      abc = libgnunetchat;
+
 
       packages.x86_64-linux.libgnunetchat = pkgs.stdenv.mkDerivation {
+        NIX_DEBUG = 1;
+        INSTALL_DIR = (placeholder "lib") + "/";
+        prePatch = ''
+          mkdir -p $lib/lib
+        '';
         name = "libgnunetchat";
         src = libgnunetchat;
-        nativeBuildInputs = [ pkgs.gnunet pkgs.libsodium pkgs.libgcrypt pkgs.libextractor];
-        outputs = 
+        nativeBuildInputs = [ pkgs.gnunet pkgs.libsodium pkgs.libgcrypt pkgs.libextractor ];
+        outputs = [ "out" "lib" ];
       };
     };
 }
