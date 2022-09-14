@@ -20,7 +20,8 @@
     in
     {
 
-      packages.x86_64-linux.libgnunetchat = pkgs.mkDerivation {
+      packages.x86_64-linux.libgnunetchat = pkgs.stdenv.mkDerivation {
+        name = "libgnunetchat";
         src = libgnunetchat;
         nativeBuildInputs = [ pkgs.gnunet ];
       };
