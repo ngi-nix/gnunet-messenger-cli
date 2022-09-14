@@ -36,17 +36,27 @@
           messenger-cli = final.stdenv.mkDerivation {
             name = "gnunet-messenger-cli";
             src = messenger-cli-src;
+
+            INSTALL_DIR = (placeholder "out") + "/";
+
             buildInputs = with final; [
+              gnunet
+              libsodium
+              libgcrypt
               libgnunetchat
               ncurses
             ];
+
+            preInstall = ''
+              mkdir -p $out/bin
+            '';
+
           };
 
         in
         {
           inherit messenger-cli libgnunetchat;
         };
-
 
       packages.x86_64-linux = {
         inherit (self.overlays.default pkgs null) libgnunetchat messenger-cli;
