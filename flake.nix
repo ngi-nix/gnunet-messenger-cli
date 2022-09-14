@@ -23,7 +23,7 @@
       packages.x86_64-linux.libgnunetchat = pkgs.stdenv.mkDerivation {
         name = "libgnunetchat";
         src = libgnunetchat;
-        nativeBuildInputs = [ pkgs.gnunet pkgs.libsodium pkgs.libgcrypt pkgs.libvlc];
+        nativeBuildInputs = [ pkgs.gnunet pkgs.libsodium pkgs.libgcrypt pkgs.libextractor];
       };
     };
 }
