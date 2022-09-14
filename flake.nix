@@ -14,29 +14,28 @@
     };
   };
 
-  outputs = { self, nixpkgs, messenger-cli, libgnunetchat }:
+  outputs = { self, nixpkgs, messenger-cli, libgnunetchat }@inputs:
     let
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
     in
     {
-      overlays.default = _: prev: rec {
+      overlays.default = final: prev: {
         libgnunetchat = prev.stdenv.mkDerivation {
           NIX_DEBUG = 1;
           INSTALL_DIR = (placeholder "out") + "/";
           prePatch = ''
             mkdir -p $out/lib
           '';
-          pname = "libgnunetchat";
+          name = "libgnunetchat";
           src = libgnunetchat;
-          nativeBuildInputs = [ prev.gnunet prev.libsodium prev.libgcrypt prev.libextractor ];
+          buildInputs = [ prev.gnunet prev.libsodium prev.libgcrypt prev.libextractor ];
         };
 
         messenger-cli = prev.stdenv.mkDerivation {
-          pname = "gnunet-messenger-cli";
-          version = messenger-cli.shortRev;
+          name = "gnunet-messenger-cli";
           src = messenger-cli;
-          nativeBuildInputs = [
-            libgnunetchat
+          buildInputs = [
+            final.libgnunetchat
           ];
         };
       };
